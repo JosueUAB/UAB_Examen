@@ -1,10 +1,14 @@
 const express =require('express');
-
+require('dotenv').config();
 //creacion del servidor
 const app = express();
+//modulo importado para la base de datos
+const {dbCONN} = require('./database/database');
+dbCONN();
+
 
 app.get('/', (req, res) => {
-    res.status(404).json({
+    res.status(200).json({
     ok: true,
     msg: 'conexion estalecida'
     })
@@ -12,7 +16,6 @@ app.get('/', (req, res) => {
 
 
 //creacion del servidor
-app.listen(3000,()=>{
-    console.log("servidor corriendo en el puerto 3000");
-})
-
+app.listen( process.env.PUERTO  ,()=>{
+    console.log(`servidor corriendo en el puerto ${process.env.PUERTO}`);
+});
