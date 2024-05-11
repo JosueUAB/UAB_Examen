@@ -1,6 +1,6 @@
 const {Router} =require('express');
 const router=Router();
-const{CrearCelular,getCelular}=require('../controllers/inventario');
+const{CrearCelular,getCelular,getCelularDetalle}=require('../controllers/inventario');
 const { check } = require('express-validator');
 const {validarCampos} = require('../middlewares/validaciones');
 
@@ -19,14 +19,10 @@ router.post('/lista',[
                      ],CrearCelular);
 //*endpoint  2  obtener inventario de celulares
 router.get('/lista',getCelular);
+
 //*endpoint  3  obtener detalles
 
-router.get('/lista/:id',(req,res)=>{
-    res.json({
-        ok: true,
-        msg:'obtener detalles del celular'
-    });
-});
+router.get('/lista/:id',getCelularDetalle);
 //*endpoint  4  actualidar datos del celular
 
 router.put('/lista/:id',(req,res)=>{

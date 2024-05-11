@@ -50,7 +50,35 @@ const getCelular= async(req,res=response)=>{
     })
 }
 //#endregion obtener lista de celulares
+const getCelularDetalle=async(req,res=response)=>{
+    const id=req.params.id;
+    try {
+        const celular = await Celular.findById(id);
+        //* console.log(`id del celular ${id}`);
+        if(!celular){
+            return res.status(400).json({
+                ok: false,
+                msg: 'el celular no existe',
+                url:req.url //para ver de donde procede 
+            })
+        }
+        res.status(200).json({
+            ok: true,
+            celular
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(404).json({
+            ok: false,
+            msg: '404 not found'
+        })
+    } 
+}
+//#region obtener detalles de un celular
+
+//#endregion obtener detalles de un celular
 module.exports={
     CrearCelular,
     getCelular,
+    getCelularDetalle
 }
