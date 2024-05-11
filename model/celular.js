@@ -16,6 +16,14 @@ const CelularSchema=new Schema({
         type: String,
         required: true
     },
+    ram: {
+        type: String,
+        required: true
+    },
+    bateria: {
+        type: Number,
+        required: true
+    },
     imei: {
         type: String,
         required: true,
@@ -24,6 +32,10 @@ const CelularSchema=new Schema({
     precio: {
         type: Number,
         required: true
+    },
+    descuento: {
+        type: String,
+        required: false
     }
 });
 // model('colecciones de la db'),esuema que hcimos
