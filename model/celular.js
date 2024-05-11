@@ -16,12 +16,7 @@ const CelularSchema=new Schema({
         type: String,
         required: true
     },
-    ime1: {
-        type: String,
-        required: true,
-        unique:true
-    },
-    ime2: {
+    imei: {
         type: String,
         required: true,
         unique:true

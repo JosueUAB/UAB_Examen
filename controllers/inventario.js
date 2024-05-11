@@ -4,8 +4,19 @@
 const {response} =require('express');
 const Celular=require('../model/celular');
 const CrearCelular=async(req,res = response)=>{
+    //*desectruccturacion del libro
+    const {imei}=req.body;
 
     try {
+        //!verificacion si existe los imei
+        const existeCelular= await Celular.findOne({imei});
+        if(existeCelular){
+            return res.status(400).json({
+                ok: false,
+                msg: 'el celular ya existe',
+                url:req.url //para ver de donde prcede 
+            })
+        }
         //*instancia dl modelo del celular
         const celular= new Celular(req.body);
         //*crear libro en la base de datos
