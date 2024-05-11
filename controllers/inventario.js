@@ -114,12 +114,37 @@ const putCelularUpdate=async(req,res=response)=>{
 //#endregion actualizar  un celular
 
 //#region eliminar  un celular
-
+const DeleteCelular=async(req,res=response)=>{
+   const id=req.params.id;
+   try {
+    const existeCelular = await Celular.findById(id);
+    if (!existeCelular) {
+        return res.status(404).json({
+            ok: false,
+            msg: 'el celular no existe',
+            url:req.url //para ver de donde procede
+        })
+    }
+    //*eliminar celular
+    await Celular.findByIdAndDelete(id);
+    res.status(200).json({
+        ok: true,
+        msg: 'celular eliminado'
+    });
+   } catch (error) {
+    console.log(error);
+        res.status(404).json({
+            ok: false,
+            msg: '404 not found'
+        })
+   }
+}
 //#rendegion eliminar  un celular
 
 module.exports={
     CrearCelular,
     getCelular,
     getCelularDetalle,
-    putCelularUpdate
+    putCelularUpdate,
+    DeleteCelular
 }
