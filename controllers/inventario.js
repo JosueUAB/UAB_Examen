@@ -50,6 +50,8 @@ const getCelular= async(req,res=response)=>{
     })
 }
 //#endregion obtener lista de celulares
+
+//#region obtener detalles de un celular
 const getCelularDetalle=async(req,res=response)=>{
     const id=req.params.id;
     try {
@@ -74,11 +76,50 @@ const getCelularDetalle=async(req,res=response)=>{
         })
     } 
 }
-//#region obtener detalles de un celular
-
 //#endregion obtener detalles de un celular
+//#region actualizar  un celular
+const putCelularUpdate=async(req,res=response)=>{
+    const id=req.params.id;
+     const _id=req._id;
+    try {
+        const celular = await Celular.findById(id);
+        //*verificar si el celular no  existe
+        if(!celular){
+            return res.status(400).json({
+                ok: false,
+                msg: 'el celular no existe',
+                url:req.url //para ver de donde procede 
+            })
+        }
+        //* actualizar los datos
+        const modificarDatosCelular={
+            ...req.body,
+            celular:_id
+        }
+        const celularActualizado= await Celular.findByIdAndUpdate(id,modificarDatosCelular,{new:true});
+        res.status(200).json({
+            ok: true,
+            celular:celularActualizado
+        });
+       
+    } catch (error) {
+        console.log(error);
+        res.status(404).json({
+            ok: false,
+            msg: '404 not found'
+        })
+    } 
+}
+
+//#endregion actualizar  un celular
+
+//#region eliminar  un celular
+
+//#rendegion eliminar  un celular
+
 module.exports={
     CrearCelular,
     getCelular,
-    getCelularDetalle
+    getCelularDetalle,
+    putCelularUpdate
 }

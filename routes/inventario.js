@@ -1,6 +1,6 @@
 const {Router} =require('express');
 const router=Router();
-const{CrearCelular,getCelular,getCelularDetalle}=require('../controllers/inventario');
+const{CrearCelular,getCelular,getCelularDetalle ,putCelularUpdate}=require('../controllers/inventario');
 const { check } = require('express-validator');
 const {validarCampos} = require('../middlewares/validaciones');
 
@@ -25,12 +25,7 @@ router.get('/lista',getCelular);
 router.get('/lista/:id',getCelularDetalle);
 //*endpoint  4  actualidar datos del celular
 
-router.put('/lista/:id',(req,res)=>{
-    res.json({
-        ok: true,
-        msg:'celular actualizado'
-    });
-});
+router.put('/lista/:id',putCelularUpdate);
 //*endpoint  5  eliminar celular
 
 router.delete('/lista/:id',(req,res)=>{
@@ -38,7 +33,7 @@ router.delete('/lista/:id',(req,res)=>{
         ok: true,
         msg:'celular eliminado'
     });
-});
+}); 
 
 
 
