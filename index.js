@@ -4,16 +4,18 @@ require('dotenv').config();
 const app = express();
 //modulo importado para la base de datos
 const {dbCONN} = require('./database/database');
-dbCONN();
+//dbCONN();
+app.use('',require('./routes/inventario'));
 
-
+/*
+//prueba de conexion
 app.get('/', (req, res) => {
     res.status(200).json({
     ok: true,
     msg: 'conexion estalecida'
     })
 })
-
+*/
 
 //creacion del servidor
 app.listen( process.env.PUERTO  ,()=>{
