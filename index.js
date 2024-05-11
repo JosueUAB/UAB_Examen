@@ -4,9 +4,16 @@ require('dotenv').config();
 const app = express();
 //modulo importado para la base de datos
 const {dbCONN} = require('./database/database');
-//dbCONN();
-app.use('',require('./routes/inventario'));
+//*primero la conexion luego las rutas
+dbCONN();
 
+
+
+//*lectura y parseo del body
+
+app.use(express.json());
+
+app.use('',require('./routes/inventario'));
 /*
 //prueba de conexion
 app.get('/', (req, res) => {

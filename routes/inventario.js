@@ -1,14 +1,10 @@
 const {Router} =require('express');
 const router=Router();
+const{CrearCelular}=require('../controllers/inventario');
 
 
 //*endpoint  1  creacion de un celular
-router.post('/lista',(req,res)=>{
-    res.json({
-        ok: true,
-        msg:'celular agregado'
-    });
-});
+router.post('/lista',CrearCelular);
 //*endpoint  2  obtener inventario de celulares
 router.get('/lista',(req,res)=>{
     res.json({

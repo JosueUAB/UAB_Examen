@@ -1,6 +1,5 @@
-const {schema,model}=require('mongoose');
-
-const CelularSchema=schema({
+const { Schema, model } = require('mongoose');
+const CelularSchema=new Schema({
     marca: {
         type: String,
         required: true
