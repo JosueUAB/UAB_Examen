@@ -3,6 +3,8 @@
 
 const {response} =require('express');
 const Celular=require('../model/celular');
+
+//#region creacion de un celular
 const CrearCelular=async(req,res = response)=>{
     //*desectruccturacion del libro
     const {imei}=req.body;
@@ -37,7 +39,18 @@ const CrearCelular=async(req,res = response)=>{
         })
     }
 }
+//#endregion creacion de un celular
 
+//#region obtener lista de celulares
+const getCelular= async(req,res=response)=>{
+    const celulares = await Celular.find();
+    res.status(200).json({
+        ok: true,
+        celulares
+    })
+}
+//#endregion obtener lista de celulares
 module.exports={
     CrearCelular,
+    getCelular,
 }
