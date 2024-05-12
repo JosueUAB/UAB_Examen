@@ -139,12 +139,41 @@ const DeleteCelular=async(req,res=response)=>{
         })
    }
 }
-//#rendegion eliminar  un celular
+//#endregion eliminar  un celular
 
+//#region obtener por marca de un celular
+const getMarcaCelular=async(req,res=response)=>{
+    const marca=req.params.marca.toLowerCase();
+    
+    try {
+     const celularesEncontrados = await Celular.find({marca});
+     
+     if (celularesEncontrados.length === 0) {
+         return res.status(404).json({
+             ok: false,
+             msg: 'la marca que ingreso no existe',
+         })
+     }
+     res.status(200).json({
+         ok: true,
+         cantidad: celularesEncontrados.length,
+         celularesEncontrados
+     });
+    
+    } catch (error) {
+     console.log(error);
+         res.status(404).json({
+             ok: false,
+             msg: '404 not found'
+         })
+    }
+ }
+//#endregion obtener por marca de un celular
 module.exports={
     CrearCelular,
     getCelular,
     getCelularDetalle,
     putCelularUpdate,
-    DeleteCelular
+    DeleteCelular,
+    getMarcaCelular
 }

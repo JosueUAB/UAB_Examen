@@ -1,6 +1,12 @@
 const {Router} =require('express');
 const router=Router();
-const{CrearCelular,getCelular,getCelularDetalle ,putCelularUpdate,DeleteCelular}=require('../controllers/inventario');
+const{  CrearCelular,
+        getCelular,
+        getCelularDetalle ,
+        putCelularUpdate,
+        DeleteCelular,
+        getMarcaCelular
+}=require('../controllers/inventario');
 const { check } = require('express-validator');
 const {validarCampos} = require('../middlewares/validaciones');
 
@@ -30,6 +36,9 @@ router.put('/lista/:id',putCelularUpdate);
 
 router.delete('/lista/:id',DeleteCelular)
 
+//*endpoint 6 obtener celulares por su marca
+
+router.get('/marca/:marca',getMarcaCelular)
 
 
 module.exports=router;
