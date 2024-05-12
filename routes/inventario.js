@@ -5,7 +5,8 @@ const{  CrearCelular,
         getCelularDetalle ,
         putCelularUpdate,
         DeleteCelular,
-        getMarcaCelular
+        getMarcaCelular,
+        getCompararPreciosCelular
 }=require('../controllers/inventario');
 const { check } = require('express-validator');
 const {validarCampos} = require('../middlewares/validaciones');
@@ -39,6 +40,9 @@ router.delete('/lista/:id',DeleteCelular)
 //*endpoint 6 obtener celulares por su marca
 
 router.get('/marca/:marca',getMarcaCelular)
+
+//*endpoint 6 obtener celulares por su marca
+router.get('/precio/:minimo/:maximo',getCompararPreciosCelular)
 
 
 module.exports=router;

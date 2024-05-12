@@ -169,11 +169,36 @@ const getMarcaCelular=async(req,res=response)=>{
     }
  }
 //#endregion obtener por marca de un celular
+
+//#region mosrar rango entre precios
+const getCompararPreciosCelular=async(req,res=response)=>{
+    const minimo=parseInt( req.params.minimo);
+    const maximo=parseInt( req.params.maximo);
+    //console.log( minimo , maximo);
+    try {
+        const celulares = await Celular.find({ precio:  { $gte: minimo, $lte: maximo }}).sort({precio:-1});
+        
+        res.status(200).json({
+            ok: true,
+            total: celulares.length,
+            celulares
+        });
+    
+    } catch (error) {
+     console.log(error);
+         res.status(404).json({
+             ok: false,
+             msg: '404 not found'
+         })
+    }
+ }
+//#endregion mosrar rango entre precios
 module.exports={
     CrearCelular,
     getCelular,
     getCelularDetalle,
     putCelularUpdate,
     DeleteCelular,
-    getMarcaCelular
+    getMarcaCelular,
+    getCompararPreciosCelular
 }
