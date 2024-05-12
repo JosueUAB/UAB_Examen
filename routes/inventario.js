@@ -6,7 +6,9 @@ const{  CrearCelular,
         putCelularUpdate,
         DeleteCelular,
         getMarcaCelular,
-        getCompararPreciosCelular
+        getCompararPreciosCelular,
+        getRam,
+        getColor
 }=require('../controllers/inventario');
 const { check } = require('express-validator');
 const {validarCampos} = require('../middlewares/validaciones');
@@ -35,14 +37,23 @@ router.get('/lista/:id',getCelularDetalle);
 router.put('/lista/:id',putCelularUpdate);
 //*endpoint  5  eliminar celular
 
-router.delete('/lista/:id',DeleteCelular)
+router.delete('/lista/:id',DeleteCelular);
 
 //*endpoint 6 obtener celulares por su marca
 
-router.get('/marca/:marca',getMarcaCelular)
+router.get('/marca/:marca',getMarcaCelular);
 
-//*endpoint 6 obtener celulares por su marca
-router.get('/precio/:minimo/:maximo',getCompararPreciosCelular)
+//*endpoint 7 mostrar entre un  precio minimo y maximo y mostrarlos de menor a mayor
+router.get('/precio/:minimo/:maximo',getCompararPreciosCelular);
+
+//*endpoint 8 mostrar por la cantidad de ram 
+router.get('/ram/:ram',getRam);
+
+//*endpoint 9 mostrar celulares por su color
+router.get('/color/:color',getColor);
+
+//*endpoint 10
+
 
 
 module.exports=router;

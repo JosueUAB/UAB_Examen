@@ -3,6 +3,7 @@
 
 const {response} =require('express');
 const Celular=require('../model/celular');
+const celular = require('../model/celular');
 
 //#region creacion de un celular
 const CrearCelular=async(req,res = response)=>{
@@ -193,6 +194,75 @@ const getCompararPreciosCelular=async(req,res=response)=>{
     }
  }
 //#endregion mosrar rango entre precios
+
+
+//#region mosrar por catntidad de ram
+const getRam=async(req,res=response)=>{
+    const ram = parseInt(req.params.ram);
+    try {
+       // Buscar celulares con la cantidad de RAM especificada
+       const celulares = await Celular.find({}).lean(); // Utilizamos lean() para obtener un JSON plano en lugar de objetos Mongoose
+
+       //* Filtrar celulares que tienen la cantidad de RAM especificada
+       const celularesConRamEspecifica = celulares.filter(celular => {
+           // Extraer la cantidad de RAM del campo 'ram' y convertirla a números
+           const ramArray = celular.ram.split('+').map(item => parseInt(item));
+
+           // Sumar la cantidad de RAM
+           const cantidadRam = ramArray.reduce((total, num) => total + num, 0);
+
+           // Comparar con la cantidad de RAM especificada
+           return cantidadRam === ram;
+       });
+
+       res.status(200).json({
+           ok: true,
+           total: celularesConRamEspecifica.length,
+           celulares: celularesConRamEspecifica
+       });
+
+        
+    
+    } catch (error) {
+     console.log(error);
+         res.status(404).json({
+             ok: false,
+             msg: '404 not found'
+         })
+    }
+ }
+//#endregion mosrar por catntidad de ram
+
+
+//#region mosrar por catntidad de ram
+const getColor=async(req,res=response)=>{
+    const color = req.params.color.toLowerCase();
+    try {
+        const celulares = await Celular.find({}).lean();
+        const celularesConColorEspecifico = celulares.filter(celular => {
+            // *Convertimos los colores a minúsculas y los separamos en un array
+            const coloresCelular = celular.color.toLowerCase().split(',').map(c => c.trim());
+            console.log(coloresCelular);
+            // *Verificamos si el color especificado está en la lista de colores del celular
+            return coloresCelular.includes(color);
+        });
+
+        //* ordear por precio de menor a mayor
+        celularesConColorEspecifico.sort((a, b) => a.precio - b.precio);
+        res.status(200).json({
+            ok: true,
+            total: celularesConColorEspecifico.length,
+            celulares: celularesConColorEspecifico
+        });
+    } catch (error) {
+     console.log(error);
+         res.status(404).json({
+             ok: false,
+             msg: '404 not found'
+         })
+    }
+ }
+//#endregion mosrar por catntidad de ram
 module.exports={
     CrearCelular,
     getCelular,
@@ -200,5 +270,8 @@ module.exports={
     putCelularUpdate,
     DeleteCelular,
     getMarcaCelular,
-    getCompararPreciosCelular
+    getCompararPreciosCelular,
+    getRam,
+    getColor,
+    
 }
