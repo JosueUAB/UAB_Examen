@@ -380,3 +380,38 @@ respuesta json
 - **400 "error" ** el color no esta disponible en la tienda
 - **404 "error" ** la pagina donde se intenta acceder no existe
 - **200 "msg" ** celulares encontrados con ese color
+
+
+#  vender por imei y calcular el descuento y el total
+
+```
+GET 										/imei_del_equipo_a_buscar
+http://localhost:3000/vender/00002
+
+respuesta json
+{
+	"ok": true,
+	"msg": "El celular ha sido vendido",
+	"celular": {
+		"vendido": true,
+		"_id": "663fcabbe39a7b6b63e4286a",
+		"marca": "samsung",
+		"modelo": "j7 pro",
+		"color": "verde",
+		"almacenamiento": "16gb",
+		"ram": "32gb",
+		"bateria": 3000,
+		"imei": "00002",
+		"precio": 430,
+		"descuento": "33",
+		"__v": 0,
+		"precioActual": 430,
+		"precioConDescuento": 288.1,
+		"descuentoNumero": 141.9
+	}
+}
+
+```
+- **400 "error" ** el celular ya ha sido vendido o el celular no existe
+- **404 "error" ** la pagina donde se intenta acceder no existe
+- **200 "msg" ** celulares encontrados con ese color

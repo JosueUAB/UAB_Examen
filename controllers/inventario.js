@@ -322,6 +322,62 @@ const getDesc=async(req,res=response)=>{
     }
  }
 //#endregion mosrar por porcentaje y calcular el total de descuento
+
+//#region vender un celular
+const putVender = async (req, res = response) => {
+    const imei = req.params.imei;
+    try {
+        const celulares = await Celular.find({ imei: imei });
+        if (celulares.length === 0) {
+            return res.status(400).json({
+                ok: false,
+                msg: 'El celular no existe'
+            });
+        }
+        
+        // Obtener el primer celular encontrado (suponiendo que solo hay uno)
+        const celular = celulares[0];
+
+        // Verificar si el celular ya está vendido
+        if (celular.vendido) {
+            return res.status(400).json({
+                ok: false,
+                msg: 'El celular ya ha sido vendido'
+            });
+        }
+
+        // Marcar el celular como vendido
+        celular.vendido = true;
+
+        // Guardar los cambios en la base de datos
+        await celular.save();
+
+        // Calcular el precio con descuento
+        const precioActual = celular.precio;
+        const descuentoNumero = parseFloat(celular.descuento);
+        const totalDescuento = (precioActual * (descuentoNumero / 100));
+        const precioConDescuento = precioActual - totalDescuento;
+
+        res.status(200).json({
+            ok: true,
+            msg: 'El celular ha sido vendido',
+            celular: {
+                ...celular.toObject(), // Convertir el documento Mongoose a objeto JavaScript
+                precioActual: precioActual,
+                precioConDescuento: precioConDescuento,
+                descuentoNumero: totalDescuento
+            }
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(404).json({
+            ok: false,
+            msg: '404 not found'
+        });
+    }
+}
+
+//#endregion vender un celular
 module.exports={
     CrearCelular,
     getCelular,
@@ -332,6 +388,7 @@ module.exports={
     getCompararPreciosCelular,
     getRam,
     getColor,
-    getDesc
+    getDesc,
+    putVender
 
 }

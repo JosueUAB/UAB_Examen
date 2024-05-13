@@ -36,6 +36,10 @@ const CelularSchema=new Schema({
     descuento: {
         type: String,
         required: false
+    },
+    vendido: {
+        type: Boolean,
+        default: false 
     }
 });
 // model('colecciones de la db'),esuema que hcimos
