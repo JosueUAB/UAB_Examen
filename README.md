@@ -92,7 +92,7 @@ GET http://localhost:3000/lista
 - **200 "msg" ** exitoso
 # buscar un celular y obtener detalles por id
 ```
-GET 									ID
+GET 						/ID
 http://localhost:3000/lista/663fcabbe39a7b6b63e4286a
 {
 	"ok": true,
@@ -122,7 +122,7 @@ http://localhost:3000/lista/663fcabbe39a7b6b63e4286a
 
 # actualizar los datos de un celular por id
 ```
-PUT										ID
+PUT							/ID
 http://localhost:3000/lista/663fcc0ef5d5e6361ccb0ea8
 JSON ENVIADO
 {
@@ -163,7 +163,7 @@ Respuesta Json
 # eliminar un celular por id
 
 ```
-delete 									id
+delete 						id
 http://localhost:3000/lista/663feb30769d4f6fc7ce15b5
 respuesta del json
 {
@@ -176,10 +176,12 @@ respuesta del json
 - **400 "error" ** el celular no existe
 - **404 "error" ** la pagina donde se intenta acceder no existe
 - **200 "msg" ** celular actualizado correctamente
-# obtener inventario por marca y cantidad
+# obtener inventario por marca 
 
+- **detalle ** esta consulta lista los celulares que no estan vendidos
+- **detalle ** tambien nos muestra la cantidad de celulares listados
 ```
-GET  									/parametro a buscar
+GET  						/parametro a buscar
 http://localhost:3000/marca/realme
 
 respuesta json
@@ -235,8 +237,10 @@ respuesta json
 - **200 "msg" ** celulares encontrados
 # obtener celulares entre 2 precios minimo y maximo
 
+- **detalle ** esta consulta lista los celulares que no estan vendidos
+- **detalle ** tambien nos muestra la cantidad de celulares listados
 ```
-GET 										/valor_minimo/valor_maximo
+GET 						/valor_minimo/valor_maximo
 http://localhost:3000/precio/100/500
 
 respuestaa json 
@@ -278,8 +282,10 @@ respuestaa json
 
 # obtener celulares por la cantidad de ram
 
+- **detalle ** esta consulta lista los celulares que no estan vendidos
+- **detalle ** tambien nos muestra la cantidad de celulares listados 
 ```
-GET 									/Valor_numerico
+GET 					  /Valor_numerico
 http://localhost:3000/ram/6
 respuesta json
 {
@@ -321,9 +327,10 @@ respuesta json
 - **200 "msg" ** celulares encontrados
 
 # obtener celulares por el color y ordenarlos de menor a mayor
-
+- **detalle ** esta consulta lista los celulares que no estan vendidos
+- **detalle ** tambien nos muestra la cantidad de celulares listados
 ```
-GET 									/color_a_buscar
+GET 						/color_a_buscar
 http://localhost:3000/color/negro
 
 respuesta json
@@ -349,9 +356,12 @@ respuesta json
 - **404 "error" ** la pagina donde se intenta acceder no existe
 - **200 "msg" ** celulares encontrados con ese color
 #  buscar por imei y calcular el descuento y el total
+- **detalle ** esta consulta lista los celulares que estan vendidos
+- **detalle ** en caso de que este este vendido nos muestra el estado de vendido
+- **detalle ** tambien nos muestra la cantidad de celulares listados
 
 ```
-GET 										/imei_del_equipo_a_buscar
+GET 						/imei_del_equipo_a_buscar
 http://localhost:3000/buscar/00001
 
 respuesta json
@@ -377,7 +387,7 @@ respuesta json
 	]
 }
 ```
-- **400 "error" ** el color no esta disponible en la tienda
+- **400 "error" ** el color no esta disponible en la tienda o el celular se encuentra vendido
 - **404 "error" ** la pagina donde se intenta acceder no existe
 - **200 "msg" ** celulares encontrados con ese color
 
@@ -385,7 +395,7 @@ respuesta json
 #  vender por imei y calcular el descuento y el total
 
 ```
-GET 										/imei_del_equipo_a_buscar
+GET 						/imei_del_equipo_a_buscar
 http://localhost:3000/vender/00002
 
 respuesta json
@@ -415,3 +425,33 @@ respuesta json
 - **400 "error" ** el celular ya ha sido vendido o el celular no existe
 - **404 "error" ** la pagina donde se intenta acceder no existe
 - **200 "msg" ** celulares encontrados con ese color
+
+#  ver celulares vendidos
+
+```
+GET 						
+http://localhost:3000/vender
+
+respuesta json
+ok": true,
+	"total": 4,
+	"celulares": [
+		{
+			"_id": "663fca9de39a7b6b63e42863",
+			"marca": "samsung",
+			"modelo": "j7 prime",
+			"color": "dorado",
+			"almacenamiento": "64gb",
+			"ram": "4gb",
+			"bateria": 3000,
+			"imei": "00001",
+			"precio": 350,
+			"descuento": "5%",
+			"__v": 0,
+			"vendido": true
+		},
+
+```
+- **400 "error" ** no hay celulare vendidos
+- **404 "error" ** la pagina donde se intenta acceder no existe
+- **200 "msg" ** celulares vendidos encontrados

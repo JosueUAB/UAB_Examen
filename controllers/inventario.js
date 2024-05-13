@@ -150,7 +150,7 @@ const getMarcaCelular=async(req,res=response)=>{
     const marca=req.params.marca.toLowerCase();
     
     try {
-     const celularesEncontrados = await Celular.find({marca});
+     const celularesEncontrados = await Celular.find({marca,vendido:false});
      
      if (celularesEncontrados.length === 0) {
          return res.status(400).json({
@@ -180,7 +180,7 @@ const getCompararPreciosCelular=async(req,res=response)=>{
     const maximo=parseInt( req.params.maximo);
     //console.log( minimo , maximo);
     try {
-        const celulares = await Celular.find({ precio:  { $gte: minimo, $lte: maximo }}).sort({precio:-1});
+        const celulares = await Celular.find({ precio:  { $gte: minimo, $lte: maximo },vendido:false}).sort({precio:-1});
         
         res.status(200).json({
             ok: true,
@@ -204,7 +204,7 @@ const getRam=async(req,res=response)=>{
     const ram = parseInt(req.params.ram);
     try {
        // Buscar celulares con la cantidad de RAM especificada
-       const celulares = await Celular.find({}).lean(); // Utilizamos lean() para obtener un JSON plano en lugar de objetos Mongoose
+       const celulares = await Celular.find({vendido:false}).lean(); // Utilizamos lean() para obtener un JSON plano en lugar de objetos Mongoose
 
        //* Filtrar celulares que tienen la cantidad de RAM especificada
        const celularesConRamEspecifica = celulares.filter(celular => {
@@ -242,11 +242,11 @@ const getRam=async(req,res=response)=>{
 //#endregion mosrar por catntidad de ram
 
 
-//#region mosrar por catntidad de ram
+//#region mosrar por color
 const getColor=async(req,res=response)=>{
     const color = req.params.color.toLowerCase();
     try {
-        const celulares = await Celular.find({}).lean();
+        const celulares = await Celular.find({vendido:false}).lean();
         const celularesConColorEspecifico = celulares.filter(celular => {
             // *Convertimos los colores a minúsculas y los separamos en un array
             const coloresCelular = celular.color.toLowerCase().split(',').map(c => c.trim());
@@ -276,7 +276,7 @@ const getColor=async(req,res=response)=>{
          })
     }
  }
-//#endregion mosrar por catntidad de ram
+//#endregion mosrar por color
 
 //#region mosrar por porcentaje y calcular el total de descuento
 const getDesc=async(req,res=response)=>{
@@ -291,8 +291,16 @@ const getDesc=async(req,res=response)=>{
                 //url:req.url //para ver de donde procede 
             })
         }
+        
         // Obtener el primer celular encontrado (suponiendo que solo hay uno)
         const celular = celulares[0];
+        if(celular.vendido){
+            return res.status(400).json({
+                ok: false,
+                msg: 'el celular ha sido vendido',
+                //url:req.url //para ver de donde procede 
+            })
+        }
 
         // * ver el precio actual (sin descuento)
         const precioActual = celular.precio;
@@ -378,6 +386,34 @@ const putVender = async (req, res = response) => {
 }
 
 //#endregion vender un celular
+
+
+//#region vender un celular
+const getVendidos = async (req, res = response) => {
+    try {
+        const celulares = await Celular.find({ vendido: true });
+        if (celulares.length === 0) {
+            return res.status(400).json({
+                ok: false,
+                msg: 'No hay celulares vendidos'
+            });
+        }
+        res.status(200).json({
+            ok: true,
+            total: celulares.length,
+            celulares: celulares
+        });
+      
+    } catch (error) {
+        console.log(error);
+        res.status(404).json({
+            ok: false,
+            msg: '404 not found'
+        });
+    }
+}
+
+//#endregion vender un celular
 module.exports={
     CrearCelular,
     getCelular,
@@ -389,6 +425,8 @@ module.exports={
     getRam,
     getColor,
     getDesc,
-    putVender
+    putVender,
+    getVendidos
+
 
 }

@@ -10,7 +10,8 @@ const{  CrearCelular,
         getRam,
         getColor,
         getDesc,
-        putVender
+        putVender,
+        getVendidos
 }=require('../controllers/inventario');
 const { check } = require('express-validator');
 const {validarCampos} = require('../middlewares/validaciones');
@@ -59,6 +60,8 @@ router.get('/buscar/:imei',getDesc);
 
 //*endpoint 11 buscar por imei y vender el celular mostando descuento y total
 router.put('/vender/:imei',putVender);
+//*endpoint 12 mostrar celulares vendidos
+router.get('/vender/',getVendidos);
 
 
 
