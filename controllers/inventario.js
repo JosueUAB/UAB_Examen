@@ -34,7 +34,7 @@ const CrearCelular=async(req,res = response)=>{
 
     } catch (error) {
         console.log(error);
-        res.status(400).json({
+        res.status(404).json({
             ok: false,
             msg: '400 bad request'
         })
@@ -78,6 +78,8 @@ const getCelularDetalle=async(req,res=response)=>{
     } 
 }
 //#endregion obtener detalles de un celular
+
+
 //#region actualizar  un celular
 const putCelularUpdate=async(req,res=response)=>{
     const id=req.params.id;
@@ -100,6 +102,7 @@ const putCelularUpdate=async(req,res=response)=>{
         const celularActualizado= await Celular.findByIdAndUpdate(id,modificarDatosCelular,{new:true});
         res.status(200).json({
             ok: true,
+            msg:'celular actualizado correctamente',
             celular:celularActualizado
         });
        
@@ -120,7 +123,7 @@ const DeleteCelular=async(req,res=response)=>{
    try {
     const existeCelular = await Celular.findById(id);
     if (!existeCelular) {
-        return res.status(404).json({
+        return res.status(400).json({
             ok: false,
             msg: 'el celular no existe',
             url:req.url //para ver de donde procede
@@ -150,7 +153,7 @@ const getMarcaCelular=async(req,res=response)=>{
      const celularesEncontrados = await Celular.find({marca});
      
      if (celularesEncontrados.length === 0) {
-         return res.status(404).json({
+         return res.status(400).json({
              ok: false,
              msg: 'la marca que ingreso no existe',
          })
@@ -214,7 +217,12 @@ const getRam=async(req,res=response)=>{
            // Comparar con la cantidad de RAM especificada
            return cantidadRam === ram;
        });
-
+        if (celularesConRamEspecifica.length === 0) {
+           return res.status(400).json({
+               ok: false,
+               msg: `No se encontraron celulares con la cantidad de RAM ${ram}`
+           });
+       }
        res.status(200).json({
            ok: true,
            total: celularesConRamEspecifica.length,
@@ -250,7 +258,7 @@ const getColor=async(req,res=response)=>{
         //* ordear por precio de menor a mayor
         celularesConColorEspecifico.sort((a, b) => a.precio - b.precio);
         if (celularesConColorEspecifico.length === 0) {
-            return res.status(404).json({
+            return res.status(400).json({
                 ok: false,
                 msg: `no se encontraron celulares de color : ${color}`
             });
