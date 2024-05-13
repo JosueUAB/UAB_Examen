@@ -8,7 +8,8 @@ const{  CrearCelular,
         getMarcaCelular,
         getCompararPreciosCelular,
         getRam,
-        getColor
+        getColor,
+        getDesc
 }=require('../controllers/inventario');
 const { check } = require('express-validator');
 const {validarCampos} = require('../middlewares/validaciones');
@@ -52,7 +53,8 @@ router.get('/ram/:ram',getRam);
 //*endpoint 9 mostrar celulares por su color
 router.get('/color/:color',getColor);
 
-//*endpoint 10
+//*endpoint 10 buscar por imei y calcular el descuento y el total con el descuento
+router.get('/buscar/:imei',getDesc);
 
 
 

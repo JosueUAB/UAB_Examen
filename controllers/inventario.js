@@ -249,6 +249,12 @@ const getColor=async(req,res=response)=>{
 
         //* ordear por precio de menor a mayor
         celularesConColorEspecifico.sort((a, b) => a.precio - b.precio);
+        if (celularesConColorEspecifico.length === 0) {
+            return res.status(404).json({
+                ok: false,
+                msg: `no se encontraron celulares de color : ${color}`
+            });
+        }
         res.status(200).json({
             ok: true,
             total: celularesConColorEspecifico.length,
@@ -263,6 +269,51 @@ const getColor=async(req,res=response)=>{
     }
  }
 //#endregion mosrar por catntidad de ram
+
+//#region mosrar por porcentaje y calcular el total de descuento
+const getDesc=async(req,res=response)=>{
+    const imei = req.params.imei
+    try {
+        const celulares = await Celular.find({imei:imei});
+        console.log(celulares);
+        if(celulares.length===0){
+            return res.status(400).json({
+                ok: false,
+                msg: 'el celular no existe',
+                //url:req.url //para ver de donde procede 
+            })
+        }
+        // Obtener el primer celular encontrado (suponiendo que solo hay uno)
+        const celular = celulares[0];
+
+        // * ver el precio actual (sin descuento)
+        const precioActual = celular.precio;
+
+        // Calcular el descuento en número (convertir el porcentaje a número)
+        const descuentoNumero = parseFloat(celular.descuento);
+        const totalDescuento = (precioActual * (descuentoNumero / 100));
+
+        // Calcular el precio con descuento
+        const precioConDescuento = precioActual - totalDescuento ;
+
+        res.status(200).json({
+            ok: true,
+            celulares: [{
+                ...celular.toObject(), // Convertir el documento Mongoose a objeto JavaScript
+                precioActual: precioActual,
+                precioConDescuento: precioConDescuento,
+                descuentoNumero: totalDescuento
+            }]
+        });
+    } catch (error) {
+     console.log(error);
+         res.status(404).json({
+             ok: false,
+             msg: '404 not found'
+         })
+    }
+ }
+//#endregion mosrar por porcentaje y calcular el total de descuento
 module.exports={
     CrearCelular,
     getCelular,
@@ -273,5 +324,6 @@ module.exports={
     getCompararPreciosCelular,
     getRam,
     getColor,
-    
+    getDesc
+
 }
