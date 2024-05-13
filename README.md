@@ -13,7 +13,7 @@
 
 
 
-# Crear un celular en base de datos
+# 1 Crear un celular en base de datos
 ```
 POST http://localhost:3000/lista
 ** envio del json **
@@ -54,7 +54,7 @@ respuesta
 - **404 "error" ** la pagina donde se intenta acceder no existe
 - **201 "msg" ** celular creado
 
-# obtener el inventario de todos los celulares
+# 2 obtener el inventario de todos los celulares
 ```
 GET http://localhost:3000/lista
 *** respuesta del json ***
@@ -90,7 +90,7 @@ GET http://localhost:3000/lista
 
 ```
 - **200 "msg" ** exitoso
-# buscar un celular y obtener detalles por id
+# 3 buscar un celular y obtener detalles por id
 ```
 GET 						/ID
 http://localhost:3000/lista/663fcabbe39a7b6b63e4286a
@@ -120,7 +120,7 @@ http://localhost:3000/lista/663fcabbe39a7b6b63e4286a
 - **200 "msg" ** celular encontrado
 
 
-# actualizar los datos de un celular por id
+# 4 actualizar los datos de un celular por id
 ```
 PUT							/ID
 http://localhost:3000/lista/663fcc0ef5d5e6361ccb0ea8
@@ -160,7 +160,7 @@ Respuesta Json
 - **400 "error" ** el celular ya existe
 - **404 "error" ** la pagina donde se intenta acceder no existe
 - **200 "msg" ** celular actualizado correctamente
-# eliminar un celular por id
+# 5 eliminar un celular por id
 
 ```
 delete 						id
@@ -176,7 +176,7 @@ respuesta del json
 - **400 "error" ** el celular no existe
 - **404 "error" ** la pagina donde se intenta acceder no existe
 - **200 "msg" ** celular actualizado correctamente
-# obtener inventario por marca 
+# 6 obtener inventario por marca 
 
 - **detalle ** esta consulta lista los celulares que no estan vendidos
 - **detalle ** tambien nos muestra la cantidad de celulares listados
@@ -235,7 +235,7 @@ respuesta json
 - **400 "error" ** la marca del celular no existe
 - **404 "error" ** la pagina donde se intenta acceder no existe
 - **200 "msg" ** celulares encontrados
-# obtener celulares entre 2 precios minimo y maximo
+# 7 obtener celulares entre 2 precios minimo y maximo
 
 - **detalle ** esta consulta lista los celulares que no estan vendidos
 - **detalle ** tambien nos muestra la cantidad de celulares listados
@@ -280,7 +280,7 @@ respuestaa json
 - **404 "error" ** la pagina donde se intenta acceder no existe
 - **200 "msg" ** celulares encontrados
 
-# obtener celulares por la cantidad de ram
+# 8 obtener celulares por la cantidad de ram
 
 - **detalle ** esta consulta lista los celulares que no estan vendidos
 - **detalle ** tambien nos muestra la cantidad de celulares listados 
@@ -326,7 +326,7 @@ respuesta json
 - **404 "error" ** la pagina donde se intenta acceder no existe
 - **200 "msg" ** celulares encontrados
 
-# obtener celulares por el color y ordenarlos de menor a mayor
+# 9 obtener celulares por el color y ordenarlos de menor a mayor
 - **detalle ** esta consulta lista los celulares que no estan vendidos
 - **detalle ** tambien nos muestra la cantidad de celulares listados
 ```
@@ -355,7 +355,7 @@ respuesta json
 - **400 "error" ** el color no esta disponible en la tienda
 - **404 "error" ** la pagina donde se intenta acceder no existe
 - **200 "msg" ** celulares encontrados con ese color
-#  buscar por imei y calcular el descuento y el total
+# 10 buscar por imei y calcular el descuento y el total
 - **detalle ** esta consulta lista los celulares que estan vendidos
 - **detalle ** en caso de que este este vendido nos muestra el estado de vendido
 - **detalle ** tambien nos muestra la cantidad de celulares listados
@@ -392,7 +392,7 @@ respuesta json
 - **200 "msg" ** celulares encontrados con ese color
 
 
-#  vender por imei y calcular el descuento y el total
+# 11 vender por imei y calcular el descuento y el total
 
 ```
 GET 						/imei_del_equipo_a_buscar
@@ -426,7 +426,7 @@ respuesta json
 - **404 "error" ** la pagina donde se intenta acceder no existe
 - **200 "msg" ** celulares encontrados con ese color
 
-#  ver celulares vendidos
+# 12 ver celulares vendidos
 
 ```
 GET 						
