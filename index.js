@@ -1,5 +1,6 @@
 const express =require('express');
 require('dotenv').config();
+const { autenticar } = require('./middlewares/validaciones');
 //creacion del servidor
 const app = express();
 //modulo importado para la base de datos
@@ -12,8 +13,8 @@ dbCONN();
 //*lectura y parseo del body
 
 app.use(express.json());
-
-app.use('',require('./routes/inventario'));
+app.use('', require('./routes/autenticacion'));
+app.use('',autenticar,require('./routes/inventario'));
 /*
 //prueba de conexion
 app.get('/', (req, res) => {

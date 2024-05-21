@@ -1,5 +1,8 @@
-//*validaciones para que no dejen ningun campo vacio en nuestro formulario
+//* son validsciones para que no exitan cmpos vacios
 const {response}=require('express');
+const jwt = require('jsonwebtoken');
+const Usuario = require('../model/usuario');
+const {tokenEnTokenBlacklist } = require('./revocacion_token');
 const {validationResult}=require('express-validator');
 
 const validarCampos=(req,res=response,next)=>{
@@ -13,6 +16,39 @@ const validarCampos=(req,res=response,next)=>{
     //fltaba paraetro de next
     next();
 }
+
+const autenticar = (req, res, next) => {
+    const token = req.header('Authorization')?.replace('Bearer ', '');
+
+    if (!token) {
+        return res.status(401).json({
+            ok: false,
+            msg: 'token no autenticado',
+        });
+    }
+
+   // console.log(`Autenticando token: ${token}`);
+    if (tokenEnTokenBlacklist(token)) {
+       // console.log(`Token revocado detectado: ${token}`);
+        return res.status(401).json({
+            ok: false,
+            msg: 'Token revocado',
+        });
+    }
+
+    try {
+        const decoded = jwt.verify(token, 'clave_secreta');
+        req.usuarioId = decoded.usuarioId;
+        next();
+    } catch (error) {
+        return res.status(401).json({
+            ok: false,
+            msg: 'Token no válido',
+        });
+    }
+};
+
 module.exports={
-    validarCampos
+    validarCampos,
+    autenticar
 }

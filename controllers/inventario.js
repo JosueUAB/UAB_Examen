@@ -47,6 +47,7 @@ const getCelular= async(req,res=response)=>{
     const celulares = await Celular.find();
     res.status(200).json({
         ok: true,
+        total:celulares.length,
         celulares
     })
 }
@@ -250,7 +251,7 @@ const getColor=async(req,res=response)=>{
         const celularesConColorEspecifico = celulares.filter(celular => {
             // *Convertimos los colores a minúsculas y los separamos en un array
             const coloresCelular = celular.color.toLowerCase().split(',').map(c => c.trim());
-            console.log(coloresCelular);
+            //console.log(coloresCelular);
             // *Verificamos si el color especificado está en la lista de colores del celular
             return coloresCelular.includes(color);
         });
