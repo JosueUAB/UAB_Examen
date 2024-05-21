@@ -3,7 +3,6 @@
 
 const {response} =require('express');
 const Celular=require('../model/celular');
-const celular = require('../model/celular');
 
 //#region creacion de un celular
 const CrearCelular=async(req,res = response)=>{

@@ -15,6 +15,7 @@ dbCONN();
 app.use(express.json());
 app.use('', require('./routes/autenticacion'));
 app.use('',autenticar,require('./routes/inventario'));
+app.use('',autenticar,require('./routes/cliente'));
 /*
 //prueba de conexion
 app.get('/', (req, res) => {
