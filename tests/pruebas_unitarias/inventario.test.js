@@ -1,5 +1,5 @@
 const express = require('express');
-const request = require('supertest'); // Asegúrate de usar 'supertest' aquí
+const request = require('supertest');
 const mongoose = require('mongoose');
 const inventarioRuta = require('../../routes/inventario');
 const inventarioModel = require('../../model/celular');
@@ -117,6 +117,41 @@ describe('Pruebas Unitarias para Inventario de Celulares', () => {
   });
   
 
-  //#region3 3er test buscar y obtener detalles
+  //#endregion3 3er test buscar y obtener detalles
+  
 
+
+    //region4 actualizar un celular que ya existe
+    test('Actualizar un celular que ya existe en la base de datos - Método: PUT putCelularUpdate', async () => {
+        const celularCreado = await inventarioModel.create({
+            marca: "huawei",
+            modelo: "y6p",
+            color: "negro",
+            almacenamiento: "8gb",
+            ram: "4gb",
+            bateria: 3000,
+            imei: "00105",
+            precio: 300,
+            descuento: "20%"
+        });
+    
+        const celularActualizar = {
+            marca: "huawei (editado)",
+            modelo: "y6p (editado)",
+            color: "negro (editado)",
+            almacenamiento: "8gb (editado)",
+            ram: "4gb (editado)",
+            bateria: 4000,
+            precio: 500,
+            descuento: "20% (editado)"
+        };
+        const res = await request(app)
+            .put('/lista/' + celularCreado._id)
+            .send(celularActualizar);
+        //console.log(res);
+        expect(res.statusCode).toEqual(200);
+        expect(res.body.celular.modelo).toEqual(celularActualizar.modelo);
+    });
+    //#endregion4 actualizar un celular que ya existe
+    
 });
