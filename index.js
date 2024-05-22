@@ -13,10 +13,17 @@ dbCONN();
 //*lectura y parseo del body
 
 app.use(express.json());
+/*
 app.use('', require('./routes/autenticacion'));
 app.use('',autenticar,require('./routes/inventario'));
 app.use('',autenticar,require('./routes/cliente'));
+app.use('',autenticar,require('./routes/venta'));
+*/
+app.use('',require('./routes/inventario'));
+app.use('',require('./routes/cliente'));
+app.use('',require('./routes/venta'));
 /*
+
 //prueba de conexion
 app.get('/', (req, res) => {
     res.status(200).json({
