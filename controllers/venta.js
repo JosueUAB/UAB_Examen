@@ -60,12 +60,14 @@ const crearVenta = async (req, res = response) => {
         });
     } catch (error) {
         console.log(error);
-        res.status(404).json({
+        res.status(500).json({
             ok: false,
-            msg: '404 not found'
+            msg: 'Error al crear la venta'
         });
     }
 };
+
+
 //#endregion Crear una venta
 
 //#region Obtener lista de ventas
@@ -214,6 +216,14 @@ const crearVentaImeiCI = async (req, res = response) => {
             });
         }
 
+        // Verificar si el celular ya está vendido
+        if (celular.vendido) {
+            return res.status(400).json({
+                ok: false,
+                msg: 'El celular ya está vendido'
+            });
+        }
+
         // Calcular descuento y total
         const descuentoAplicado = celular.precio * (parseFloat(celular.descuento) / 100);
         const total = celular.precio - descuentoAplicado;
@@ -228,6 +238,10 @@ const crearVentaImeiCI = async (req, res = response) => {
         });
 
         await venta.save();
+
+        // Marcar el celular como vendido
+        celular.vendido = true;
+        await celular.save();
 
         res.status(201).json({
             ok: true,
@@ -259,6 +273,7 @@ const crearVentaImeiCI = async (req, res = response) => {
         });
     }
 };
+
 const getTopClientesDescuentos = async (req, res = response) => {
     try {
         // Encontrar ventas ordenadas por descuentoAplicado de manera descendente, limitando a 3 resultados

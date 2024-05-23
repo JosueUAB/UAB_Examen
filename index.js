@@ -3,11 +3,14 @@ require('dotenv').config();
 const { autenticar } = require('./middlewares/validaciones');
 //creacion del servidor
 const app = express();
-//modulo importado para la base de datos
+//modulo importado para la base de dato
+
+const cors = require('cors');
 const {dbCONN} = require('./database/database');
 //*primero la conexion luego las rutas
 dbCONN();
-
+//cors
+app.use(cors());
 
 
 //*lectura y parseo del body
