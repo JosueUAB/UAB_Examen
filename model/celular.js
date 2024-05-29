@@ -27,7 +27,7 @@ const CelularSchema=new Schema({
     imei: {
         type: String,
         required: true,
-        unique:true
+        //unique:true
     },
     precio: {
         type: Number,

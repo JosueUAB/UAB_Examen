@@ -1,6 +1,7 @@
 const express = require('express');
 const { crearVenta, 
         getVentas, 
+        editarVenta,
         getVentaDetalle,
         eliminarVenta, 
         crearVentaImeiCI,
@@ -12,6 +13,7 @@ const router = express.Router();
 
 router.post('/ventas', crearVenta);
 router.get('/ventas', getVentas);
+router.put('/ventasd/:id', editarVenta);
 router.get('/ventas/:id', getVentaDetalle);
 router.delete('/ventas/:id', eliminarVenta);
 

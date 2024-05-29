@@ -24,7 +24,12 @@ const VentaSchema=new Schema({
     descuentoAplicado: {
         type: Number,
         required: true
-    }
+    },
+    metododePago: {
+        type: String,
+        required: true,
+        
+    },
 });
 // model('colecciones de la db'),esuema que hcimos
 module.exports =model('venta',VentaSchema,);
